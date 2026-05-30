@@ -24,4 +24,10 @@ public class BattleController {
     public ResponseEntity<BattleDTO> startBattle(@Valid @RequestBody BattleRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(battleService.startBattle(request));
     }
+
+    @PostMapping("/random")
+    public ResponseEntity<BattleDTO> randomBattle() {
+        return ResponseEntity.status(HttpStatus.CREATED).body(battleService.startRandomBattle());
+    }
+    
 }
