@@ -1,51 +1,15 @@
 package tech.galactictournament.domain.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 import tech.galactictournament.domain.dtos.SpecieDTO;
-import tech.galactictournament.domain.entities.Specie;
-import tech.galactictournament.domain.repositories.SpecieRepository;
 
-@Service
-@RequiredArgsConstructor
-public class SpecieService {
+public interface SpecieService {
 
-    private final SpecieRepository specieRepository;
+    List<SpecieDTO> findAll();
 
-    public List<SpecieDTO> findAll() {
-        return specieRepository.findAll().stream()
-                .map(this::toDTO)
-                .toList();
-    }
+    Page<SpecieDTO> findPaginated(int page, int size);
 
-    public Page<SpecieDTO> findPaginated(int page, int size) {
-        return specieRepository.findAll(PageRequest.of(page, size))
-                .map(this::toDTO);
-    }
-
-    public SpecieDTO create(SpecieDTO dto) {
-        Specie specie = new Specie();
-        specie.setName(dto.getName());
-        specie.setPowerLevel(dto.getPowerLevel());
-        specie.setSpecialAbility(dto.getSpecialAbility());
-        specie.setCreatedAt(LocalDateTime.now());
-
-        return toDTO(specieRepository.save(specie));
-    }
-
-    private SpecieDTO toDTO(Specie specie) {
-        SpecieDTO dto = new SpecieDTO();
-        dto.setId(specie.getId());
-        dto.setName(specie.getName());
-        dto.setPowerLevel(specie.getPowerLevel());
-        dto.setSpecialAbility(specie.getSpecialAbility());
-        dto.setCreatedAt(specie.getCreatedAt());
-        return dto;
-    }
+    SpecieDTO findById(Long id);
 }

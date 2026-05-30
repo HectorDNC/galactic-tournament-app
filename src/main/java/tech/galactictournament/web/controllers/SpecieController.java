@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import tech.galactictournament.domain.dtos.SpecieDTO;
-import tech.galactictournament.domain.services.SpecieService;
+import tech.galactictournament.domain.services.SpecieServiceImpl;
 
 @RestController
 @RequestMapping("/api/species")
 @RequiredArgsConstructor
 public class SpecieController {
 
-    private final SpecieService specieService;
+    private final SpecieServiceImpl specieService;
 
     @GetMapping("/all")
     public ResponseEntity<List<SpecieDTO>> getAll() {
@@ -34,6 +35,11 @@ public class SpecieController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(specieService.findPaginated(page, size));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SpecieDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(specieService.findById(id));
     }
 
     @PostMapping
