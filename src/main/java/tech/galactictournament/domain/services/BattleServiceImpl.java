@@ -1,6 +1,8 @@
 package tech.galactictournament.domain.services;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
@@ -97,6 +99,24 @@ public class BattleServiceImpl implements BattleService {
         return stats;
     }
 
-    
+    public BattleDTO startRandomBattle() {
+        List<Long> ids = specieRepository.findAllIds();
+
+        if (ids.size() < 2) {
+            throw new IllegalArgumentException("Se necesitan al menos 2 especies para iniciar un combate aleatorio");
+        }
+
+        Collections.shuffle(ids);
+        Specie fighterLeft  = specieRepository.findById(ids.get(0))
+            .orElseThrow(() -> new NoSuchElementException("Especie peleadora izquierda no encontrada: " + ids.get(0)));
+        Specie fighterRight = specieRepository.findById(ids.get(1))
+            .orElseThrow(() -> new NoSuchElementException("Especie peleadora derecha no encontrada: " + ids.get(1)));
+
+        BattleRequestDTO request = new BattleRequestDTO();
+        request.setFighterLeftId(fighterLeft.getId());
+        request.setFighterRightId(fighterRight.getId());
+
+        return startBattle(request);
+    }
 }
 

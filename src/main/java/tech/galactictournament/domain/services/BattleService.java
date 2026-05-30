@@ -6,4 +6,6 @@ import tech.galactictournament.domain.dtos.BattleRequestDTO;
 public interface BattleService {
 
     BattleDTO startBattle(BattleRequestDTO request);
+
+    BattleDTO startRandomBattle();
 }

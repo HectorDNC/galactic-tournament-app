@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    container_name: galactic-tournament-back
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      MAIN_DB_URL: ${MAIN_DB_URL}
+      MAIN_DB_USER: ${MAIN_DB_USER}
+      MAIN_DB_PASSWORD: ${MAIN_DB_PASSWORD}
