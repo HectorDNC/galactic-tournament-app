@@ -33,6 +33,10 @@ git clone <url-repositorio>
 cd galactic-tournament-back
 ```
 
+**Iniciar con Docker**
+
+- Para iniciar con Docker revisar la documentación en DOCKER.md
+
 ### 2. Configurar variables de entorno (producción con MySQL)
 
 Crear un archivo `.env` o configurar las variables del sistema:

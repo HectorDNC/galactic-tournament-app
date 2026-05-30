@@ -1,0 +1,12 @@
+target/
+.git/
+.gitignore
+*.md
+.mvn/
+mvnw
+mvnw.cmd
+docker-compose.yml
+Dockerfile
+.env
+.env.example
+DOCKER.md
