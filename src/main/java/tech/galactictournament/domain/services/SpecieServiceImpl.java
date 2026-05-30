@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import tech.galactictournament.domain.dtos.SpecieDTO;
 import tech.galactictournament.domain.dtos.SpecieRequestDTO;
 import tech.galactictournament.domain.entities.Specie;
+import tech.galactictournament.domain.mappers.SpecieMapper;
 import tech.galactictournament.domain.repositories.SpecieRepository;
 
 @Service
@@ -19,21 +20,22 @@ import tech.galactictournament.domain.repositories.SpecieRepository;
 public class SpecieServiceImpl implements SpecieService {
 
     private final SpecieRepository specieRepository;
+    private final SpecieMapper specieMapper;
 
     public List<SpecieDTO> findAll() {
         return specieRepository.findAll().stream()
-                .map(this::toDTO)
+                .map(specieMapper::toDTO)
                 .toList();
     }
 
     public Page<SpecieDTO> findPaginated(int page, int size) {
         return specieRepository.findAll(PageRequest.of(page, size))
-                .map(this::toDTO);
+                .map(specieMapper::toDTO);
     }
 
     public SpecieDTO findById(Long id) {
         return specieRepository.findById(id)
-                .map(this::toDTO)
+                .map(specieMapper::toDTO)
                 .orElseThrow(() -> new NoSuchElementException("Especie no encontrada"));
     }
 
@@ -45,7 +47,7 @@ public class SpecieServiceImpl implements SpecieService {
         specie.setSpecialAbility(dto.getSpecialAbility());
         specie.setCreatedAt(LocalDateTime.now());
 
-        return toDTO(specieRepository.save(specie));
+        return specieMapper.toDTO(specieRepository.save(specie));
     }
 
     @Override
@@ -62,18 +64,7 @@ public class SpecieServiceImpl implements SpecieService {
             specie.setSpecialAbility(dto.getSpecialAbility());
         }
 
-        return toDTO(specieRepository.save(specie));
-    }
-
-    
-
-    private SpecieDTO toDTO(Specie specie) {
-        SpecieDTO dto = new SpecieDTO();
-        dto.setId(specie.getId());
-        dto.setName(specie.getName());
-        dto.setPowerLevel(specie.getPowerLevel());
-        dto.setSpecialAbility(specie.getSpecialAbility());
-        dto.setCreatedAt(specie.getCreatedAt());
-        return dto;
+        return specieMapper.toDTO(specieRepository.save(specie));
     }
 }
+
