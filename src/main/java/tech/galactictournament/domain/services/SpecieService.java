@@ -3,6 +3,8 @@ package tech.galactictournament.domain.services;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,11 @@ public class SpecieService {
         return specieRepository.findAll().stream()
                 .map(this::toDTO)
                 .toList();
+    }
+
+    public Page<SpecieDTO> findPaginated(int page, int size) {
+        return specieRepository.findAll(PageRequest.of(page, size))
+                .map(this::toDTO);
     }
 
     public SpecieDTO create(SpecieDTO dto) {
