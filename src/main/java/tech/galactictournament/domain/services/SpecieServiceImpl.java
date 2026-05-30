@@ -28,8 +28,13 @@ public class SpecieServiceImpl implements SpecieService {
                 .toList();
     }
 
-    public Page<SpecieDTO> findPaginated(int page, int size) {
-        return specieRepository.findAll(PageRequest.of(page, size))
+    public Page<SpecieDTO> findPaginated(int page, int size, String name) {
+        PageRequest pageable = PageRequest.of(page, size);
+        if (name != null && !name.isBlank()) {
+            return specieRepository.findByFilter(name, pageable)
+                    .map(specieMapper::toDTO);
+        }
+        return specieRepository.findAll(pageable)
                 .map(specieMapper::toDTO);
     }
 

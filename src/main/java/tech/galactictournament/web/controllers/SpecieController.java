@@ -35,8 +35,9 @@ public class SpecieController {
     @GetMapping
     public ResponseEntity<Page<SpecieDTO>> getPaginated(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(specieService.findPaginated(page, size));
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String name) {
+        return ResponseEntity.ok(specieService.findPaginated(page, size, name));
     }
 
     @GetMapping("/{id}")

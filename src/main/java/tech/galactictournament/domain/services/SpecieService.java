@@ -10,7 +10,7 @@ public interface SpecieService {
 
     List<SpecieDTO> findAll();
 
-    Page<SpecieDTO> findPaginated(int page, int size);
+    Page<SpecieDTO> findPaginated(int page, int size, String name);
 
     SpecieDTO findById(Long id);
     
