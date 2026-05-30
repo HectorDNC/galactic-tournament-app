@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import tech.galactictournament.domain.dtos.SpecieDTO;
+import tech.galactictournament.domain.dtos.SpecieRequestDTO;
 import tech.galactictournament.domain.entities.Specie;
 import tech.galactictournament.domain.repositories.SpecieRepository;
 
@@ -33,10 +34,11 @@ public class SpecieServiceImpl implements SpecieService {
     public SpecieDTO findById(Long id) {
         return specieRepository.findById(id)
                 .map(this::toDTO)
-                .orElseThrow(() -> new NoSuchElementException("Specie not found"));
+                .orElseThrow(() -> new NoSuchElementException("Especie no encontrada"));
     }
 
-    public SpecieDTO create(SpecieDTO dto) {
+    @Override
+    public SpecieDTO create(SpecieRequestDTO dto) {
         Specie specie = new Specie();
         specie.setName(dto.getName());
         specie.setPowerLevel(dto.getPowerLevel());
@@ -45,6 +47,25 @@ public class SpecieServiceImpl implements SpecieService {
 
         return toDTO(specieRepository.save(specie));
     }
+
+    @Override
+    public SpecieDTO update(Long id, SpecieRequestDTO dto) {
+        Specie specie = specieRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Especie no encontrada"));
+        if (dto.getName() != null) {
+            specie.setName(dto.getName());
+        }
+        if (dto.getPowerLevel() != null) {
+            specie.setPowerLevel(dto.getPowerLevel());
+        }
+        if (dto.getSpecialAbility() != null) {
+            specie.setSpecialAbility(dto.getSpecialAbility());
+        }
+
+        return toDTO(specieRepository.save(specie));
+    }
+
+    
 
     private SpecieDTO toDTO(Specie specie) {
         SpecieDTO dto = new SpecieDTO();

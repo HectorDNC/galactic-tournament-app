@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import tech.galactictournament.domain.dtos.SpecieDTO;
+import tech.galactictournament.domain.dtos.SpecieRequestDTO;
 
 public interface SpecieService {
 
@@ -12,4 +13,8 @@ public interface SpecieService {
     Page<SpecieDTO> findPaginated(int page, int size);
 
     SpecieDTO findById(Long id);
+    
+    SpecieDTO create(SpecieRequestDTO dto);
+
+    SpecieDTO update(Long id, SpecieRequestDTO dto);
 }
