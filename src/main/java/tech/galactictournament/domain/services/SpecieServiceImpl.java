@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import tech.galactictournament.config.exceptions.BadRequestException;
+import tech.galactictournament.config.exceptions.NotFoundException;
 import tech.galactictournament.domain.dtos.SpecieDTO;
 import tech.galactictournament.domain.dtos.SpecieRequestDTO;
 import tech.galactictournament.domain.entities.Specie;
@@ -41,11 +43,16 @@ public class SpecieServiceImpl implements SpecieService {
     public SpecieDTO findById(Long id) {
         return specieRepository.findById(id)
                 .map(specieMapper::toDTO)
-                .orElseThrow(() -> new NoSuchElementException("Especie no encontrada"));
+                .orElseThrow(() -> new NotFoundException("Especie no encontrada"));
     }
 
     @Override
     public SpecieDTO create(SpecieRequestDTO dto) {
+        Specie existingSpecie = specieRepository.findByName(dto.getName());
+        if (existingSpecie != null) {
+            throw new BadRequestException("Ya existe una especie con ese nombre");
+        }
+
         Specie specie = new Specie();
         specie.setName(dto.getName());
         specie.setPowerLevel(dto.getPowerLevel());
