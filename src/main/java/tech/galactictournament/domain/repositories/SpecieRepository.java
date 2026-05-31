@@ -16,6 +16,8 @@ public interface SpecieRepository extends JpaRepository<Specie, Long> {
     @Query("SELECT s FROM Specie s WHERE LOWER(s.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<Specie> findByFilter(String name, Pageable pageable);
 
+    Specie findByName(String name);
+
     @Query("SELECT s.id FROM Specie s")
     List<Long> findAllIds();
 }
