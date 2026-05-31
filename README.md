@@ -18,7 +18,6 @@
 - **Java**: versión 21 o superior
 - **Maven**: versión 3.6+ (incluye wrapper `mvnw.cmd` y `./mvnw`)
 - **Base de datos** (opcional para desarrollo):
-  - H2 (en memoria, incluido por defecto en tests)
   - MySQL 8.0+ (para producción)
 
 ### Puertos
